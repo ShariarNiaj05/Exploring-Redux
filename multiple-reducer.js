@@ -1,4 +1,4 @@
-const { createStore } = require("redux")
+const { createStore, combineReducers } = require("redux")
 
 // product constant 
 const GET_PRODUCTS = 'GET_PRODUCTS';
@@ -63,7 +63,7 @@ const productReducer = (state = initialProductState, action) => {
             }
 
         default:
-            state
+            return state
     }
 }
 
@@ -83,26 +83,31 @@ const cartReducer = (state = initialCartState, action) => {
             }
 
         default:
-            state
+           return state
     }
 }
 
 
+const rootReducer = combineReducers({
+    productReducer,
+    cartReducer,
+})
 
+const store = createStore(rootReducer)
 // const productStore = createStore(productReducer)
 // const cartStore = createStore(cartReducer)
 
-productStore.subscribe(() => {
-    console.log(productStore.getState());
+store.subscribe(() => {
+    console.log(store.getState());
 })
 
-cartStore.subscribe(() => {
-    console.log(cartStore.getState());
+store.subscribe(() => {
+    console.log(store.getState());
 })
 
-productStore.dispatch(getProducts())
-productStore.dispatch(addProducts('biriani'))
-productStore.dispatch(addProducts('borhani'))
+store.dispatch(getProducts())
+store.dispatch(addProducts('biriani'))
+store.dispatch(addProducts('borhani'))
 
-cartStore.dispatch(getCart())
-cartStore.dispatch(addCart('tea'))
+store.dispatch(getCart())
+store.dispatch(addCart('tea'))
